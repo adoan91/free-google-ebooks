@@ -1,42 +1,41 @@
-// this function takes the question object returned by StackOverflow 
-// and returns new result to be appended to DOM
-var showQuestion = function(question) {
-	
-	// clone our result template code
-	var result = $('.templates .question').clone();
-	
-	// Set the question properties in result
-	var questionElem = result.find('.question-text a');
-	questionElem.attr('href', question.link);
-	questionElem.text(question.title);
+var sIndex = 0;
 
-	// set the date asked property in result
-	var asked = result.find('.asked-date');
-	var date = new Date(1000*question.creation_date);
-	asked.text(date.toString());
+var download = '&download=epub'; //only epub supported
+var filter = '&filter=free-ebooks';
+var startIndex; //= '&startIndex=' + sIndex;
+var maxResults = '&maxResults=40';
+var orderBy = '&orderBy=newest'; // sorted by relevance by default
+var langRestrict = '&langRestrict=en';
 
-	// set the .viewed for question property in result
-	var viewed = result.find('.viewed');
-	viewed.text(question.view_count);
+// special keywords for query
+var intitle = 'intitle:';
+var inauthor = 'inauthor:';
+var inpublisher = 'inpublisher:';
+var subject = 'subject:';
+var isbn = 'isbn:';
+var lccn = 'lccn:';
+var oclc = 'oclc:';
 
-	// set some properties related to asker
-	var asker = result.find('.asker');
-	asker.html('<p>Name: <a target="_blank" '+
-						 'href=https://stackoverflow.com/users/' + question.owner.user_id + ' >' +
-							question.owner.display_name +
-						'</a>' +
-				'</p>' +
-				'<p>Reputation: ' + question.owner.reputation + '</p>'
-	);
+var answerers;
+var search;
 
-	return result;
-};
-
+var tempTotal;
 
 // this function takes the results object from StackOverflow
 // and returns the number of results and tags to be appended to DOM
-var showSearchResults = function(query, resultNum) {
-	var results = resultNum + ' ebooks for <strong>' + query + '</strong>';
+var showSearchResults = function(query, resultNum, total) {
+	var start, end;
+
+	start = sIndex + 1;
+	if ((sIndex + 40) <= total) {
+		end = sIndex + 40;
+	} else {
+		end = total;
+	}
+	
+
+	//var results = 'Showing ' + resultNum + ' ebooks out of ' + total + ' for <strong>' + query + '</strong>';
+	var results = 'Showing ebooks ' + start + ' - ' + end + ' out of ' + total + ' for <strong>' + query + '</strong>';
 	return results;
 };
 
@@ -47,60 +46,24 @@ var showError = function(error){
 	errorElem.append(errorText);
 };
 
-// takes a string of semi-colon separated tags to be searched
-// for on StackOverflow
-var getUnanswered = function(tags) {
+
+var getInspiration = function() {
 	
-	// the parameters we need to pass in our request to StackOverflow's API
-	var request = { tagged: tags,
-					site: 'stackoverflow',
-					order: 'desc',
-					sort: 'creation'};
+
+	//search = answerers + download + filter + langRestrict + maxResults + orderBy;
 	
-	$.ajax({
-		url: "https://api.stackexchange.com/2.2/questions/unanswered",
-		data: request,
-		dataType: "jsonp",
-		type: "GET",
-		})
-		.done(function(result){
-			var searchResults = showSearchResults(request.tagged, result.items.length);
-
-			$('.search-results').html(searchResults);
-
-			$.each(result.items, function(i, item) {
-				var question = showQuestion(item);
-				$('.results').append(question);
-			});
-		})
-		.fail(function(jqXHR, error){
-			var errorElem = showError(error);
-			$('.search-results').append(errorElem);
-		});
-};
-
-var getInspiration = function(answerers) {
-	var search = answerers;
-	var subject =
-		'subject:' +
-		search;
-	var query = 'https://www.googleapis.com/books/v1/volumes?q='+ search +'&filter=free-ebooks&langRestrict="en"&maxResults=40'; //&startIndex=0
-	var request = { 
-					tagged: answerers,
-					site: 'stackoverflow',
-					order: 'desc',
-					sort: 'creation'
-				};
+	var query =
+		'https://www.googleapis.com/books/v1/volumes?q=' +
+		search; 
 	
 	$.ajax({
-		//url: "https://api.stackexchange.com/2.2/tags/" + answerers + "/top-answerers/month",
 		url: query,
-		//data: request,
 		dataType: "jsonp",
 		type: "GET",
 		})
 		.done(function(result){
-			var searchResults = showSearchResults(answerers, result.items.length);
+			tempTotal = result.totalItems; // keep track for pagination
+			var searchResults = showSearchResults(answerers, result.items.length, result.totalItems);
 
 			$('.search-results').html(searchResults);
 			console.log(result);
@@ -138,21 +101,47 @@ var showInspiration = function(item) {
 };
 
 $(document).ready( function() {
-	$('.unanswered-getter').submit( function(){
-		// zero out results if previous search has run
-		$('.results').html('');
-		// get the value of the tags the user submitted
-		var tags = $(this).find("input[name='tags']").val();
-		$(this).find("input[name='tags']").val('');
-		getUnanswered(tags);
-	});
 
 	$('.inspiration-getter').submit( function(){
+		sIndex = 0;
+		startIndex = '&startIndex=' + sIndex;
 		// zero out results if previous search has run
 		$('.results').html('');
 		// get the value of the tags the user submitted
-		var answerers = $(this).find("input[name='answerers']").val();
+		answerers = $(this).find("input[name='answerers']").val();
 		$(this).find("input[name='answerers']").val('');
-		getInspiration(answerers);
+		search = answerers + download + filter + langRestrict + startIndex + maxResults + orderBy;
+		getInspiration();
+		$('button.next').show();
+	});
+
+	$('button.next').click(function() {
+		if ((sIndex + 40) <= tempTotal) {
+			$('button.back').show();
+			sIndex = sIndex + 40;
+			startIndex = '&startIndex=' + sIndex;
+			search = answerers + download + filter + langRestrict + startIndex + maxResults + orderBy;
+			$('.results').html('');
+			getInspiration();	
+		} else {}
+		if ((sIndex + 40) > tempTotal) {
+			$('button.next').hide();
+		}
+		
+	});
+
+	$('button.back').click(function() {
+		if ((sIndex - 40) >= 0) {
+			$('button.next').show();
+			sIndex = sIndex - 40;
+			startIndex = '&startIndex=' + sIndex;
+			search = answerers + download + filter + langRestrict + startIndex + maxResults + orderBy;
+			$('.results').html('');
+			getInspiration();	
+
+		} else {}
+		if (sIndex == 0) {
+			$('button.back').hide();
+		}
 	});
 });

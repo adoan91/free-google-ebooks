@@ -1,7 +1,7 @@
 .container {
-	margin: 3em auto;
+	margin: auto;
 	/*width: 600px;*/
-	width: 80%;
+	width: 90%;
 }
 
 .hidden {
@@ -42,13 +42,19 @@
 }
 
 .result {
+	text-align: center;
 	border: 1px solid black;
 	padding: 5px;
-	margin: 0 auto 1em auto;
-	max-width: 33%;
+	margin: auto;
+	/*max-width: 22%;*/
+	overflow: auto;
 }
 
 .error {
 	background-color: #F78181;
 	padding: 1em;
+}
+
+.search-results {
+	text-align:center;
 }

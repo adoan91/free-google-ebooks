@@ -80,9 +80,11 @@ var getUnanswered = function(tags) {
 };
 
 var getInspiration = function(answerers) {
-	var searchSubject = answerers;
-	var subject = '+subject:' + searchSubject;
-	var query = 'https://www.googleapis.com/books/v1/volumes?q='+ '\'\'' + subject +'&filter=free-ebooks&maxResults=40'; //&startIndex=0
+	var search = answerers;
+	var subject =
+		'subject:' +
+		search;
+	var query = 'https://www.googleapis.com/books/v1/volumes?q='+ search +'&filter=free-ebooks&langRestrict="en"&maxResults=40'; //&startIndex=0
 	var request = { 
 					tagged: answerers,
 					site: 'stackoverflow',

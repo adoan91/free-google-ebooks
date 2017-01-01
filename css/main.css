@@ -1,7 +1,52 @@
+* {
+}
+
+body {
+	margin: 0;
+	background-color: coral;
+}
+
+header {
+ 	text-align: center;
+	padding: 20px;
+	height: auto;
+	background-color: rgba(2, 255, 0, 0.83); 
+	color: white;
+}
+
+h1 {
+	margin: auto;
+/* 	background-color: #f2f3f2; */
+/* 	border: lightgreen 10px solid; */
+/* 	border-radius: 30px; */
+	padding: 10px 10px;
+}
+
+button {
+	background-color: lightgreen;
+	color: black;
+}
+
+input[type='submit'] {
+	background-color: lightgreen;
+	color: black;
+}
+
+dl {
+	background-color: teal;
+}
+
 .container {
 	margin: auto;
+	padding: 20px;
 	/*width: 600px;*/
 	width: 90%;
+	color: #f9f3f3;
+}
+
+a {
+	font-weight: bolder;
+	color: coral;
 }
 
 .hidden {

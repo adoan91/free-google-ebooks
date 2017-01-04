@@ -1,4 +1,6 @@
 * {
+	font-family: 'Oswald', sans-serif;
+	color: white;
 }
 
 body {
@@ -8,18 +10,23 @@ body {
 
 header {
  	text-align: center;
-	padding: 20px;
+	padding: 2em;
 	height: auto;
-	background-color: rgba(2, 255, 0, 0.83); 
-	color: white;
+	background-color: maroon; 
+	/*color: white;*/
+}
+
+footer {
+	clear: both;
+    height: auto;
+	padding: 1em;
+    text-align: center;
+    background-color: red; 
 }
 
 h1 {
 	margin: auto;
-/* 	background-color: #f2f3f2; */
-/* 	border: lightgreen 10px solid; */
-/* 	border-radius: 30px; */
-	padding: 10px 10px;
+	padding: 0.5em 0.5em;
 }
 
 button {
@@ -33,20 +40,20 @@ input[type='submit'] {
 }
 
 dl {
-	background-color: teal;
-}
-
-.container {
-	margin: auto;
-	padding: 20px;
-	/*width: 600px;*/
-	width: 90%;
-	color: #f9f3f3;
+	background-color: black;
 }
 
 a {
 	font-weight: bolder;
 	color: coral;
+}
+
+.container {
+	margin: auto;
+	padding: 0.5em;
+	/*width: 600px;*/
+	width: 90%;
+	/*color: #f9f3f3;*/
 }
 
 .hidden {
@@ -59,14 +66,14 @@ a {
 
 .stack-image {
 	background: url('../images/books-icon.jpg') no-repeat center center;
-	width: 200px;
-	height: 200px;
+	width: 10em;
+	height: 10em;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
 	background-size: cover;
 	margin-right: 1em;
-	border-radius: 5px;
+	border-radius: 0.5em;
 }
 
 .intro {
@@ -79,17 +86,18 @@ a {
 
 .inspiration { 
 	/*margin-left: 3em;*/
-	height: 300px;
+	height: 25em;
 }
 
 .post_count img {
-	height: 200px;
+	height: 10em;
 }
 
 .result {
 	text-align: center;
-	border: 1px solid black;
-	padding: 5px;
+	border: 0.2em dotted coral;
+	border-radius: 0.75em;
+	padding: 1em;
 	margin: auto;
 	/*max-width: 22%;*/
 	overflow: auto;

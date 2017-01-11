@@ -13,7 +13,6 @@ header {
 	padding: 2em;
 	height: auto;
 	background-color: maroon; 
-	/*color: white;*/
 }
 
 footer {
@@ -51,9 +50,7 @@ a {
 .container {
 	margin: auto;
 	padding: 0.5em;
-	/*width: 600px;*/
 	width: 90%;
-	/*color: #f9f3f3;*/
 }
 
 .hidden {
@@ -85,7 +82,6 @@ a {
 }
 
 .inspiration { 
-	/*margin-left: 3em;*/
 	height: 25em;
 }
 
@@ -99,7 +95,6 @@ a {
 	border-radius: 0.75em;
 	padding: 1em;
 	margin: auto;
-	/*max-width: 22%;*/
 	overflow: auto;
 }
 

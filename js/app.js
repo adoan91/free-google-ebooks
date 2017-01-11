@@ -34,7 +34,6 @@ var showSearchResults = function(query, resultNum, total) {
 	}
 	
 
-	//var results = 'Showing ' + resultNum + ' ebooks out of ' + total + ' for <strong>' + query + '</strong>';
 	var results = 'Showing ebooks ' + start + ' - ' + end + ' out of ' + total + ' for <strong>' + query + '</strong>';
 	return results;
 };
@@ -48,9 +47,6 @@ var showError = function(error){
 
 
 var getInspiration = function() {
-	
-
-	//search = answerers + download + filter + langRestrict + maxResults + orderBy;
 	
 	var query =
 		'https://www.googleapis.com/books/v1/volumes?q=' +
@@ -80,14 +76,10 @@ var getInspiration = function() {
 
 var showInspiration = function(item) {
 
-
-	//console.log(item);
 	var result = $('.templates .inspiration').clone();
 	var user = result.find('.user a')
 		.attr('href', item.volumeInfo.infoLink)
 		.text(item.volumeInfo.title);
-	// result.find('.reputation').text('Reputation: ' + item.user.reputation);
-	//if (item.volumeInfo.imageLinks.thumbnail != undefined) {
 	if (item.volumeInfo.hasOwnProperty('imageLinks')) {
 		var img = '<a href="' + item.volumeInfo.infoLink + '" target="_blank"><img src="' + item.volumeInfo.imageLinks.thumbnail +'"></a>';
 		result.find('.post_count').append(img);	

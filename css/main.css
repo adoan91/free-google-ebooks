@@ -40,12 +40,12 @@ input[type='submit'] {
 }
 
 dl {
-	background-color: black;
+	background-color: orangered;
 }
 
 a {
 	font-weight: bolder;
-	color: coral;
+	color: lightblue;
 }
 
 .container {

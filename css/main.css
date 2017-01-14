@@ -33,9 +33,12 @@ button {
 	color: black;
 }
 
+input {
+	color: black;
+}
+
 input[type='submit'] {
 	background-color: lightgreen;
-	color: black;
 }
 
 dl {
